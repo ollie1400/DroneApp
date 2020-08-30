@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="false"
-    tools:context=".MainActivity">
+    tools:context=".CameraTrackingActivity">
 
     <org.opencv.android.JavaCameraView
         android:id="@+id/cameraView"
