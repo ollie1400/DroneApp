@@ -110,6 +110,7 @@
             android:text="Open"
             android:textAllCaps="false"
             android:textSize="15dp" />
+
     </LinearLayout>
 
     <!--Make this default focus so edittext won't be the focus-->

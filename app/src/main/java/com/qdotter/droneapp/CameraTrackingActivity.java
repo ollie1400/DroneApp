@@ -127,7 +127,7 @@ public class CameraTrackingActivity extends CameraActivity implements CameraBrid
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_tracker);
 
         //m_mat = new Mat(10, 20, CvType.CV_8S);
         //m_mat.setTo(new Scalar(3));

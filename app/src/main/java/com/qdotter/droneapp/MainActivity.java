@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -45,6 +47,8 @@ import dji.sdk.products.Aircraft;
 import dji.sdk.realname.AppActivationManager;
 import dji.sdk.sdkmanager.DJISDKInitEvent;
 import dji.sdk.sdkmanager.DJISDKManager;
+
+import com.qdotter.droneapp.CameraTrackingActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -119,6 +123,18 @@ public class MainActivity extends AppCompatActivity {
                         DJISDKManager.getInstance().getSdkBetaVersion()
                         + " Debug:"
                         + GlobalConfig.DEBUG));
+
+        if (m_buttonOpen != null)
+        {
+            m_buttonOpen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //DroneApplication.getEventBus().post(componentList);
+                    Intent intent = new Intent(MainActivity.this, CameraTrackingActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     public static class ConnectivityChangeEvent {
