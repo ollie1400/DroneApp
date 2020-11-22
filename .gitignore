@@ -17,3 +17,4 @@ java/build/intermediates/
 java/build/generated/
 java/build/outputs/
 java/build/.transforms/
+java/build/tmp/

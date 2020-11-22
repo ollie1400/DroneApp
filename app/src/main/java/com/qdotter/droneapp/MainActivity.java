@@ -130,11 +130,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     //DroneApplication.getEventBus().post(componentList);
-//                    Intent intent = new Intent(MainActivity.this, CameraTrackingActivity.class);
-//                    startActivity(intent);
-
-                    Intent intent = new Intent(MainActivity.this, FPVView.class);
+                    Intent intent = new Intent(MainActivity.this, CameraTrackingActivity.class);
                     startActivity(intent);
+
+//                    Intent intent = new Intent(MainActivity.this, FPVView.class);
+//                    startActivity(intent);
                 }
             });
         }
