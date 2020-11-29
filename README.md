@@ -8,6 +8,7 @@ I wasn't able to find OpenCV Android binaries that had the tracking functionalit
 
 - https://www.pyimagesearch.com/2018/07/30/opencv-object-tracking/ - A nice review of the available tracking algorithms available in OpenCV
 - https://github.com/DJI-Mobile-SDK-Tutorials/Android-FPVDemo An example Android app from DJI about FPV
+- https://futurestud.io/tutorials/how-to-debug-your-android-app-over-wifi-without-root - how to do remote debugging of an Android app (over the local network)
 
 # Compiling OpenCV with Tracking functionality, and using it in an Android project
 
@@ -89,10 +90,3 @@ to
     implementation fileTree(dir: "libs", include: ["*.jar", "*.so"])
 ```
 so make sure that the opencv objects were being compiled.  This may or may not be important...
-
-
-# Debugging remotely with adb
-
-Assuming the project now builds properly, you can debug on a Android device remotely using ADB.
-
-This allows you to debug with the 

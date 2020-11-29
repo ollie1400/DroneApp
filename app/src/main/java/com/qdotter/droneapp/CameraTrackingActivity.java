@@ -2,14 +2,9 @@ package com.qdotter.droneapp;
 
 import androidx.annotation.RequiresApi;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -24,22 +19,14 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Rect2d;
 import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.tracking.Tracker;
 import org.opencv.tracking.TrackerMedianFlow;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
 import java.util.Collections;
 import java.util.List;
 
@@ -131,7 +118,7 @@ public class CameraTrackingActivity extends CameraActivity implements CameraBrid
 
         //m_mat = new Mat(10, 20, CvType.CV_8S);
         //m_mat.setTo(new Scalar(3));
-        m_textStatus = (TextView)findViewById(R.id.textStatus);
+        m_textStatus = (TextView)findViewById(R.id.textViewStatus);
         m_button = (Button)findViewById(R.id.buttonTrack);
         m_buttonSettingsPage = (Button)findViewById(R.id.buttonSettings);
         m_buttonConnectionPage = (Button)findViewById(R.id.buttonConnection);
