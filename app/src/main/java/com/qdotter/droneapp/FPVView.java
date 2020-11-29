@@ -46,7 +46,7 @@ public class FPVView extends Activity implements TextureView.SurfaceTextureListe
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_fpv);
-        initUi();
+        initUI();
 
         // The callback for receiving the raw H264 video data for camera live view
         m_receivedVideoDataListener = new VideoFeeder.VideoDataListener() {
@@ -111,11 +111,6 @@ public class FPVView extends Activity implements TextureView.SurfaceTextureListe
     private void uninitPreviewer()
     {
         VideoFeeder.getInstance().getPrimaryVideoFeed().removeVideoDataListener(m_receivedVideoDataListener);
-    }
-
-    void initUi()
-    {
-
     }
 
     @Override
