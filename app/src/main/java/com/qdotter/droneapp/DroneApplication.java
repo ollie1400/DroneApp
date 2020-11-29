@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.multidex.MultiDex;
 
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import com.squareup.otto.ThreadEnforcer;
 
 import dji.sdk.base.BaseProduct;
@@ -17,8 +18,8 @@ import dji.sdk.sdkmanager.DJISDKManager;
 public class DroneApplication extends Application {
     public static final String TAG = DroneApplication.class.getName();
 
-    private static BaseProduct product;
-    private static BluetoothProductConnector bluetoothConnector = null;
+    private static BaseProduct m_product;
+    private static BluetoothProductConnector m_bluetoothConnector = null;
     private static Bus bus = new Bus(ThreadEnforcer.ANY);
     private static Application app = null;
 
@@ -28,13 +29,13 @@ public class DroneApplication extends Application {
      * API_KEY has been added in the Manifest
      */
     public static synchronized BaseProduct getProductInstance() {
-        product = DJISDKManager.getInstance().getProduct();
-        return product;
+        m_product = DJISDKManager.getInstance().getProduct();
+        return m_product;
     }
 
     public static synchronized BluetoothProductConnector getBluetoothProductConnector() {
-        bluetoothConnector = DJISDKManager.getInstance().getBluetoothProductConnector();
-        return bluetoothConnector;
+        m_bluetoothConnector = DJISDKManager.getInstance().getBluetoothProductConnector();
+        return m_bluetoothConnector;
     }
 
     public static boolean isAircraftConnected() {

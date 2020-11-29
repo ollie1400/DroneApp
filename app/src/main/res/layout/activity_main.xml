@@ -107,9 +107,15 @@
             android:layout_below="@+id/btn_bluetooth"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
-            android:text="Open"
+            android:text="Open camera"
             android:textAllCaps="false"
             android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/buttonOpenDrone"
+            android:layout_width="153dp"
+            android:layout_height="wrap_content"
+            android:text="Open drone camera" />
 
     </LinearLayout>
 

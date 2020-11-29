@@ -33,6 +33,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
+import dji.common.product.Model;
 import dji.common.realname.AppActivationState;
 import dji.common.util.CommonCallbacks;
 import dji.keysdk.DJIKey;
@@ -49,6 +50,13 @@ import dji.sdk.sdkmanager.DJISDKInitEvent;
 import dji.sdk.sdkmanager.DJISDKManager;
 
 import com.qdotter.droneapp.CameraTrackingActivity;
+import com.squareup.otto.Subscribe;
+
+class CurrentConnectedDevice
+{
+    public Model model;
+    public String name;
+}
 
 public class MainActivity extends AppCompatActivity {
 
@@ -80,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView m_textModelAvailable;
     private TextView m_textProduct;
     private Button m_buttonOpen;
+    private Button m_buttonOpenDrone;
     private EditText m_bridgeModeEditText;
     private Button m_buttonBluetooth;
     private BaseProduct m_product;
@@ -102,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // connected device details
+    CurrentConnectedDevice m_currentDevice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         m_textModelAvailable = (TextView) findViewById(R.id.text_model_available);
         m_textProduct = (TextView) findViewById(R.id.text_product_info);
         m_buttonOpen = (Button) findViewById(R.id.btn_open);
+        m_buttonOpenDrone = (Button) findViewById(R.id.buttonOpenDrone);
         m_bridgeModeEditText = (EditText) findViewById(R.id.edittext_bridge_ip);
         m_buttonBluetooth = (Button) findViewById(R.id.btn_bluetooth);
         ((TextView) findViewById(R.id.text_version)).setText(getResources().getString(R.string.sdk_version,
@@ -130,9 +143,17 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     //DroneApplication.getEventBus().post(componentList);
-//                    Intent intent = new Intent(MainActivity.this, CameraTrackingActivity.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(MainActivity.this, CameraTrackingActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
+        if (m_buttonOpenDrone != null)
+        {
+            m_buttonOpenDrone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent intent = new Intent(MainActivity.this, FPVView.class);
                     startActivity(intent);
                 }
@@ -178,7 +199,11 @@ public class MainActivity extends AppCompatActivity {
                         public void onRegister(DJIError djiError) {
                             if (djiError == DJISDKError.REGISTRATION_SUCCESS) {
                                 DJILog.e("App registration", DJISDKError.REGISTRATION_SUCCESS.getDescription());
-                                DJISDKManager.getInstance().startConnectionToProduct();
+                                if (!DJISDKManager.getInstance().startConnectionToProduct())
+                                {
+                                    Log.e(TAG, "startConnectionToProduct failed");
+                                    return;
+                                }
                                 ToastUtils.setResultToToast(MainActivity.this.getString(R.string.sdk_registration_success_message));
                                 showDBVersion();
                             } else {
@@ -194,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         @Override
                         public void onProductConnect(BaseProduct baseProduct) {
+                            // this fires after we have connected to the product
                             Log.d(TAG, String.format("onProductConnect newProduct:%s", baseProduct));
                             notifyStatusChange();
                         }
@@ -206,8 +232,14 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onComponentChange(BaseProduct.ComponentKey componentKey,
                                                       BaseComponent oldComponent,
-                                                      BaseComponent newComponent) {
-                            if (newComponent != null) {
+                                                      BaseComponent newComponent)
+                        {
+                            // this is called whenever new "components" are registered on the system
+                            // e.g. the first call might be to say that the REMOTE_CONTROL has been registered
+                            // once the aircraft is connected to via the remote control, this method is called
+                            // for all of the components of the craft: the camera, the gimbal etc.
+                            if (newComponent != null)
+                            {
                                 newComponent.setComponentListener(mDJIComponentListener);
                             }
                             Log.d(TAG,
@@ -275,9 +307,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         // Request for missing permissions
-        if (missingPermission.isEmpty()) {
+        if (missingPermission.isEmpty())
+        {
             startSDKRegistration();
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        }
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
             ActivityCompat.requestPermissions(this,
                     missingPermission.toArray(new String[missingPermission.size()]),
                     REQUEST_PERMISSION_CODE);
@@ -369,5 +404,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         DroneApplication.getEventBus().unregister(this);
         super.onDestroy();
+    }
+
+    @Subscribe
+    public void answerAvailable(ConnectivityChangeEvent event) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                refreshSDKRelativeUI();
+            }
+        });
     }
 }
