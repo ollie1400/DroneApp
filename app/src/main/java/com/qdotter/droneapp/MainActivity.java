@@ -2,7 +2,6 @@ package com.qdotter.droneapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -14,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -22,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -30,7 +27,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
-import dji.common.product.Model;
 import dji.common.util.CommonCallbacks;
 import dji.keysdk.DJIKey;
 import dji.keysdk.KeyManager;
@@ -45,8 +41,6 @@ import dji.sdk.sdkmanager.DJISDKInitEvent;
 import dji.sdk.sdkmanager.DJISDKManager;
 
 import com.squareup.otto.Subscribe;
-
-import org.bouncycastle.util.Strings;
 
 class CurrentConnectedDevice
 {
@@ -79,9 +73,6 @@ public class MainActivity extends AppCompatActivity {
     };
     private static final int REQUEST_PERMISSION_CODE = 12345;
     private ProgressBar m_progressBar;
-    private TextView m_textConnectionStatus;
-    private TextView m_textModelAvailable;
-    private TextView m_textProduct;
     private Button m_buttonOpenDroneTracking;
     private Button m_buttonOpenPhoneTracking;
     private BaseProduct m_product;
@@ -89,12 +80,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView m_textViewStatus;
     private Handler m_handler;
     private KeyListener m_firmwareVersionUpdater;
-    private SearchView searchView;
-    private MenuItem searchViewItem;
-    private MenuItem hintItem;
     private List<String> missingPermission = new ArrayList<>();
     private AtomicBoolean isRegistrationInProgress = new AtomicBoolean(false);
-    private int lastProcess = -1;
     private BaseComponent.ComponentListener mDJIComponentListener = new BaseComponent.ComponentListener() {
 
         @Override
@@ -116,9 +103,7 @@ public class MainActivity extends AppCompatActivity {
         m_handler = new Handler();
         m_currentDevice = new CurrentConnectedDevice();
         m_progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        m_textConnectionStatus = (TextView) findViewById(R.id.text_connection_status);
         m_textViewStatus = (TextView) findViewById(R.id.textViewStatus);
-        m_textProduct = (TextView) findViewById(R.id.text_product_info);
         m_buttonOpenPhoneTracking = (Button) findViewById(R.id.buttonPhoneCameraTracking);
         m_buttonOpenDroneTracking = (Button) findViewById(R.id.buttonOpenDroneCameraTracking);
 

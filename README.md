@@ -6,9 +6,11 @@ I wasn't able to find OpenCV Android binaries that had the tracking functionalit
 
 ## Relevant literature
 
-- https://www.pyimagesearch.com/2018/07/30/opencv-object-tracking/ - A nice review of the available tracking algorithms available in OpenCV
+- https://www.pyimagesearch.com/2018/07/30/opencv-object-tracking/ A nice review of the available tracking algorithms available in OpenCV
 - https://github.com/DJI-Mobile-SDK-Tutorials/Android-FPVDemo An example Android app from DJI about FPV
-- https://futurestud.io/tutorials/how-to-debug-your-android-app-over-wifi-without-root - how to do remote debugging of an Android app (over the local network)
+- https://futurestud.io/tutorials/how-to-debug-your-android-app-over-wifi-without-root How to do remote debugging of an Android app (over the local network)
+- https://jbit.net/Android_Colors/ A lookup table for the ANdroid colour formats (for example, the value of the `color-format` field in the `MediaFormat` object return in the YUV data callback)
+- https://android.googlesource.com/platform/hardware/qcom/msm8994/+/4d667ba/kernel-headers/media/msm_media_info.h#85 likely information about the `YCbCr_420_SP_VENUS_UBWC` format
 
 # Compiling OpenCV with Tracking functionality, and using it in an Android project
 

@@ -152,10 +152,30 @@ public class FPVView extends Activity implements TextureView.SurfaceTextureListe
 
     }
 
+
+    private Object m_lastDataTime;
+
     @Override
     public void onYuvDataReceived(MediaFormat mediaFormat, ByteBuffer byteBuffer, int i, int i1, int i2)
     {
+        // this is called at a rate of 20-40Hz
+        // the "colour-format" field of [mediaFormat] is 2141391878 which corresponds to YCbCr_420_SP_VENUS_UBWC (from https://jbit.net/Android_Colors/) when
+        // run on a Mavic Mini
+        // (UBWC = Universal BandWidth Compression)
+        // (see https://android.googlesource.com/platform/hardware/qcom/msm8994/+/4d667ba/kernel-headers/media/msm_media_info.h#85 for format details)
         Log.i(TAG, "Format: " + mediaFormat.toString());
         Log.i(TAG, "i: " + i);
+
+        long now = System.currentTimeMillis();
+        if (m_lastDataTime != null)
+        {
+            long dt = now - (long)m_lastDataTime;
+            Log.i(TAG, "onYuvDataReceived: " +
+                    ", i = " + i +
+                    ", i1 = " + i1 +
+                    ", i2 = " + i2 +
+                    ", dt = " + dt);
+        }
+        m_lastDataTime = now;
     }
 }
