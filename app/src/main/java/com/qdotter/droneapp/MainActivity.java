@@ -224,6 +224,11 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onProductChanged(BaseProduct baseProduct) {
+                            if (baseProduct.getModel() == null)
+                            {
+                                return;
+                            }
+
                             runOnUiThread(()->{
                                 m_currentDevice.modelString = baseProduct.getModel().getDisplayName();
                                 m_currentDevice.name = "Retrieving...";
